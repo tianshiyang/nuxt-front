@@ -27,6 +27,11 @@ export function httpRequest<T = unknown>(
     onRequestError() {
       ElMessage.error('请求出错，请重试！')
     },
+    onResponse({ response }) {
+      if (!response._data.isSuccess) {
+        ElMessage.error(response._data.message)
+      }
+    },
     onResponseError({ response }) {
       switch (response.status) {
         case 400:
