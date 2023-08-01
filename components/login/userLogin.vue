@@ -1,7 +1,7 @@
 <template>
   <section class="title">
     <h1>返回首页</h1>
-    <div class="sign-in" @click="">还未注册？</div>
+    <div class="sign-in" @click="handleChangeTab">还未注册？</div>
   </section>
 
   <el-alert title="测试账号和密码都是test" type="success" show-icon />
@@ -22,6 +22,12 @@
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
 import { reactive, ref } from "vue";
+
+interface EmitType {
+  (event: 'updateTab', value: 'login' | 'signIn'): void
+}
+const emit = defineEmits<EmitType>()
+
 const form = reactive({
   username: '',
   password: ''
@@ -44,6 +50,10 @@ const handleLogin = async () => {
       const result = await httpPost("/api/user/login", form)
     }
   })
+}
+
+const handleChangeTab = () => {
+  emit('updateTab', "signIn")
 }
 </script>
 
