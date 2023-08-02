@@ -3,7 +3,7 @@ type FetchType = typeof $fetch
 type ReqType = Parameters<FetchType>[0]
 type FetchOptions = Parameters<FetchType>[1]
 import { ElMessage } from 'element-plus'
-export function httpRequest<T = unknown>(
+export function httpRequest<T = any>(
   method: 'get' | "GET" | 'post' | "POST",
   url: ReqType,
   body?: any,
@@ -71,7 +71,7 @@ export function httpPost<T = unknown>(
   return httpRequest<T>('post', request, body, opts)
 }
 
-export function httpGet<T = unknown>(
+export function httpGet<T = any>(
   request: ReqType,
   opts?: FetchOptions,
 ) {
