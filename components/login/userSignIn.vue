@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
 import { reactive, ref } from "vue";
-
+const router = useRouter()
 const form = reactive({
   username: '',
   password: '',
