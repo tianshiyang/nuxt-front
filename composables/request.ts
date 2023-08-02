@@ -31,7 +31,11 @@ export function httpRequest<T = any>(
       if (response._data.isSuccess === false) {
         return Promise.reject(response._data.message)
       }
-      return Promise.resolve(response._data.data)
+      switch(response._data.code) {
+        case 401: 
+          router.push(`/login?callback=${route.path}`)
+          return Promise.reject(response._data.message)
+      }
     },
     onResponseError({ response }) {
       switch (response.status) {
@@ -41,9 +45,8 @@ export function httpRequest<T = any>(
           ElMessage.error('参数错误')
           break
         case 401:
-          ElMessage.error('没有访问权限')
-          router.push(`/login?callback=${route.path}`)
-          break
+          ElMessage.error('登录过期')
+          return router.push(`/login?callback=${route.path}`)
         case 403:
           ElMessage.error('服务器拒绝访问')
           break

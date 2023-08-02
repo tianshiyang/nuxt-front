@@ -4,7 +4,8 @@ export const useUserInfo = defineStore("user", {
       username: "",
       avatar: "",
       nickname: "",
-      sex: ""
+      sex: "",
+      createAt: ""
     }
   })
 });

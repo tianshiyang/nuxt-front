@@ -13,6 +13,7 @@
     "@nuxt/devtools": "latest",
     "@types/node": "^18.17.1",
     "element-plus": "^2.3.8",
+    "moment": "^2.29.4",
     "nuxt": "^3.6.5"
   },
   "dependencies": {

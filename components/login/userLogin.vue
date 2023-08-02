@@ -46,30 +46,34 @@ const rules = reactive<FormRules<Record<string, any>>>({
 })
 
 const router = useRouter()
+const route = useRoute()
 
 // 登录
 const handleLogin = async () => {
   if (!loginRef.value) return
   await loginRef.value.validate(async (valid) => {
     if (valid) {
+      let result = null
       try {
-        const result = await httpPost("/api/user/login", form)
-        const token = useCookie('token')
-        token.value = result.data.token
-
-        userInfo.userInfo = result.data
-        ElMessage.success({
-          message: "登录成功！",
-          duration: 1000,
-          onClose: () => {
-            router.push({
-              path: "/"
-            })
-          }
-        })
+        result = await httpPost("/api/user/login", form)
       } catch(err) {
         ElMessage.error(err)
+        return
       }
+      const token = useCookie('token')
+
+      token.value = result.data.token
+      userInfo.userInfo = result.data
+
+      ElMessage.success({
+        message: "登录成功！",
+        duration: 1000,
+        onClose: () => {
+          router.push({
+            path: route.query?.callback || "/"
+          })
+        }
+      })
     }
   })
 }
