@@ -22,6 +22,9 @@
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
 import { reactive, ref } from "vue";
+import { useUserInfo } from "@/store/user"
+
+const userInfo = useUserInfo()
 
 interface EmitType {
   (event: 'updateTab', value: 'login' | 'signIn'): void
@@ -53,6 +56,8 @@ const handleLogin = async () => {
         const result = await httpPost("/api/user/login", form)
         const token = useCookie('token')
         token.value = result.data.token
+
+        userInfo.userInfo = result.data
         ElMessage.success({
           message: "登录成功！",
           duration: 1000,

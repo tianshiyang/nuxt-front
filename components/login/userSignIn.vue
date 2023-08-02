@@ -22,6 +22,10 @@
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
 import { reactive, ref } from "vue";
+import { useUserInfo } from "@/store/user"
+
+const userInfo = useUserInfo()
+
 const router = useRouter()
 const form = reactive({
   username: '',
@@ -53,6 +57,9 @@ const handleSignIn = async () => {
         const result = await httpPost("/api/user/signin", form)
         const token = useCookie('token')
         token.value = result.data.token
+
+        userInfo.userInfo = result.data
+
         ElMessage.success({
           message: "注册成功！",
           duration: 1000,

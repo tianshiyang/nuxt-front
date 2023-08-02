@@ -14,13 +14,16 @@
     </el-col>
     <el-col :span="12"></el-col>
     <el-col :span="2">
-      <el-button type="primary" size="large" @click="handleNavigate('/login')">登录</el-button>
+      <el-button type="primary" v-if="!userInfo.userInfo?.username" size="large" @click="handleNavigate('/login')">登录</el-button>
     </el-col>
   </el-row>
 </template>
 
 <script lang="ts" setup>
 const router = useRouter()
+import { useUserInfo } from "@/store/user"
+
+const userInfo = useUserInfo()
 
 const handleNavigate = (path: string) => {
   router.push({
