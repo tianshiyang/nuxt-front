@@ -1,5 +1,10 @@
 export const useUserInfo = defineStore("user", {
   state: () => ({
-    userInfo: {}
+    userInfo: {
+      username: "",
+      avatar: "",
+      nickname: "",
+      sex: ""
+    }
   })
 });

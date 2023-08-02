@@ -26,8 +26,10 @@ const getUserInfo = async () => {
 watch(() => route.path, () => {
   if (route.path === '/login') {
     layout.value = 'login'
+  } else if (route.path === "/userCenter") {
+    layout.value = 'user-center'
   } else {
-    layout.value = 'default'
+    layout.value = "default"
   }
 }, {
   immediate: true
