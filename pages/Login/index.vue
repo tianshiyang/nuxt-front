@@ -5,7 +5,7 @@
         <LoginUserLogin @updateTab="handleClick" />
       </el-tab-pane>
       <el-tab-pane label="注册" name="signIn">
-        注册
+        <LoginUserSignIn />
       </el-tab-pane>
     </el-tabs>
   </el-card>

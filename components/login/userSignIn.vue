@@ -1,20 +1,20 @@
 <template>
-  <section class="title">
-    <h1>返回首页</h1>
-    <div class="sign-in" @click="handleChangeTab">还未注册？</div>
+  <section>
+    <h1>注册</h1>
   </section>
 
-  <el-alert title="测试账号和密码都是test" type="success" show-icon />
-
-  <el-form ref="loginRef" :model="form" :rules="rules" label-width="120px" label-position="left" style="margin-top: 20px;">
+  <el-form ref="signInRef" :model="form" :rules="rules" label-width="120px" label-position="left" style="margin-top: 20px;">
     <el-form-item label="用户名" prop="username">
       <el-input v-model="form.username" placeholder="请输入用户名" clearable />
     </el-form-item>
     <el-form-item label="密码" prop="password">
       <el-input type="password" v-model="form.password" placeholder="请输入密码" clearable />
     </el-form-item>
+    <el-form-item label="再次输入密码" prop="rePassword">
+      <el-input type="password" v-model="form.rePassword" placeholder="请再次输入密码" clearable />
+    </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="handleLogin">登录</el-button>
+      <el-button type="primary" @click="handleSignIn">注册</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -23,16 +23,12 @@
 import type { FormInstance, FormRules } from 'element-plus'
 import { reactive, ref } from "vue";
 
-interface EmitType {
-  (event: 'updateTab', value: 'login' | 'signIn'): void
-}
-const emit = defineEmits<EmitType>()
-
 const form = reactive({
   username: '',
-  password: ''
+  password: '',
+  rePassword: "",
 })
-const loginRef = ref<FormInstance>()
+const signInRef = ref<FormInstance>()
 const rules = reactive<FormRules<Record<string, any>>>({
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -40,21 +36,25 @@ const rules = reactive<FormRules<Record<string, any>>>({
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
   ],
+  rePassword: [
+    { required: true, message: "请再次输入密码", trigger: "blur" }
+  ]
 })
 
-const router = useRouter()
-
-// 登录
-const handleLogin = async () => {
-  if (!loginRef.value) return
-  await loginRef.value.validate(async (valid) => {
+const handleSignIn = async () => {
+  if (!signInRef.value) return
+  await signInRef.value.validate(async (valid) => {
     if (valid) {
+      if (form.password !== form.rePassword) {
+        ElMessage.error("两次输入不一致")
+        return
+      }
       try {
-        const result = await httpPost("/api/user/login", form)
+        const result = await httpPost("/api/user/signin", form)
         const token = useCookie('token')
         token.value = result.data.token
         ElMessage.success({
-          message: "登录成功！",
+          message: "注册成功！",
           duration: 1000,
           onClose: () => {
             router.push({
@@ -62,26 +62,15 @@ const handleLogin = async () => {
             })
           }
         })
+        
       } catch(err) {
         ElMessage.error(err)
       }
     }
   })
 }
-
-const handleChangeTab = () => {
-  emit('updateTab', "signIn")
-}
 </script>
 
 <style scoped>
-.title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.sign-in {
-  color: rgb(8, 173, 8);
-  font-size: 14px;
-}
+
 </style>

@@ -28,12 +28,15 @@ export function httpRequest<T = unknown>(
       ElMessage.error('请求出错，请重试！')
     },
     onResponse({ response }) {
-      if (!response._data.isSuccess) {
-        ElMessage.error(response._data.message)
+      if (response._data.isSuccess === false) {
+        return Promise.reject(response._data.message)
       }
+      return Promise.resolve(response._data.data)
     },
     onResponseError({ response }) {
       switch (response.status) {
+        case 204:
+          break;
         case 400:
           ElMessage.error('参数错误')
           break
