@@ -31,11 +31,6 @@ export function httpRequest<T = any>(
       if (response._data.isSuccess === false) {
         return Promise.reject(response._data.message)
       }
-      switch(response._data.code) {
-        case 401: 
-          router.push(`/login?callback=${route.path}`)
-          return Promise.reject(response._data.message)
-      }
     },
     onResponseError({ response }) {
       switch (response.status) {
