@@ -12,7 +12,10 @@
     <el-col :span="2">
       <el-button text bg size="large" @click="handleNavigate('/course')">课程</el-button>
     </el-col>
-    <el-col :span="12"></el-col>
+    <el-col :span="2">
+      <el-button text bg size="large" v-if="userInfo.userInfo.role === 1" @click="handleNavigate('/manage')">管理</el-button>
+    </el-col>
+    <el-col :span="10"></el-col>
     <el-col :span="2">
       <el-button type="primary" v-if="!userInfo.userInfo?.username" size="large" @click="handleNavigate('/login')">登录</el-button>
       <el-popover placement="bottom" trigger="click">

@@ -5,6 +5,7 @@ export const useUserInfo = defineStore("user", {
       avatar: "",
       nickname: "",
       sex: "",
+      role: 0,
       createdAt: ""
     }
   })

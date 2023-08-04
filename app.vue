@@ -30,6 +30,8 @@ watch(() => route.path, () => {
     layout.value = 'login'
   } else if (route.path === "/userCenter") {
     layout.value = 'user-center'
+  } else if (route.path.startsWith('/manage')) {
+    layout.value = "manage"
   } else {
     layout.value = "default"
   }
