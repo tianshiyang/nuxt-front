@@ -23,6 +23,7 @@
 import type { FormInstance, FormRules } from 'element-plus'
 import { reactive, ref } from "vue";
 import { useUserInfo } from "@/store/user"
+import moment from 'moment';
 
 const userInfo = useUserInfo()
 
@@ -53,16 +54,17 @@ const handleLogin = async () => {
   if (!loginRef.value) return
   await loginRef.value.validate(async (valid) => {
     if (valid) {
-      let result = null
+      let result: any = null
       try {
         result = await httpPost("/api/user/login", form)
       } catch(err) {
-        ElMessage.error(err)
+        ElMessage.error(err as any)
         return
       }
       const token = useCookie('token')
 
       token.value = result.data.token
+      result.data.createdAt = moment(result.data.createdAt).format("YYYY-MM-DD HH:mm:ss").valueOf()
       userInfo.userInfo = result.data
 
       ElMessage.success({
@@ -70,7 +72,7 @@ const handleLogin = async () => {
         duration: 1000,
         onClose: () => {
           router.push({
-            path: route.query?.callback || "/"
+            path: route.query?.callback as string || "/"
           })
         }
       })
