@@ -18,7 +18,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="头像">
-        <el-image :src="form.avator"></el-image>
+        <el-image :src="form.avatar"></el-image>
       </el-form-item>
       <el-form-item label="创建时间">
         {{ userInfo.createdAt }}
@@ -74,7 +74,7 @@ const handleCommitUserInfo = async () => {
   try {
     await httpPost('/api/user/updateUserInfo', form)
   } catch(err) {
-    ElMessage.error(err)
+    ElMessage.error(err as any)
     return
   }
   ElMessage.success("更新成功！")
@@ -130,7 +130,7 @@ const handleUpdatePassword = async () => {
   try {
     result = await httpPost("/api/user/updateUserPassword", passwordForm)
   } catch(err) {
-    ElMessage.error(err)
+    ElMessage.error(err as any)
     return
   }
   ElMessage.success('更新密码成功')
