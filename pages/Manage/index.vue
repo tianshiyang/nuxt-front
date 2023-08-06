@@ -25,8 +25,10 @@
       <el-date-picker
         v-model="form.createdAt"
         type="datetimerange"
+        value-format="YYYY-MM-DD HH:mm:ss"
         start-placeholder="开始时间"
         end-placeholder="结束时间"
+        @change="handleDateTimeChange"
         :default-time="defaultTime"
       />
     </el-form-item>
@@ -79,9 +81,21 @@ const form = reactive({
   isRecommend: "",
   isColumn: "",
   createdAt: "",
+  startTime: "",
+  endTime: "",
   pageSize: 2,
   pageNo: 1
 })
+
+const handleDateTimeChange = (value: any[]) => {
+  if (value) {
+    form.startTime = value[0]
+    form.endTime = value[1]
+  } else {
+    form.startTime = ""
+    form.endTime = ""
+  }
+}
 
 const tableData = reactive({
   list: [],
