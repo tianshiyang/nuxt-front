@@ -31,7 +31,7 @@
       />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary">搜索</el-button>
+      <el-button type="primary" @click="handleSearch">搜索</el-button>
       <el-button type="primary" @click="handleCreateCourse">新建课程</el-button>
     </el-form-item>
   </el-form>
@@ -99,11 +99,12 @@ const handleGetPageList = async () => {
     result = await httpGet('/api/course/getCourseList', {
       params: form
     })
+    tableData.list = result.data.list
+    tableData.total = result.data.total
   } catch (err) {
     ElMessage.error(err as any)
     return
   }
-  tableData.list = result.list
 }
 
 handleGetPageList()
