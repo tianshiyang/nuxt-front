@@ -59,7 +59,6 @@ const emit = defineEmits<{
 
 const form = reactive({
   visible: true,
-  courseId: "",
   title: "",
   cover: "",
   price: "",
@@ -129,6 +128,7 @@ const handleCreateCourse = async () => {
     await httpPost('/api/course/createCourse', form)
     ElMessage.success("创建成功")
     emit("update")
+    handleClose()
   } catch (err) {
     ElMessage.error(err as any)
     return
@@ -138,9 +138,14 @@ const handleCreateCourse = async () => {
 // 更新
 const handleUpdateCourse = async () => {
   try {
-    await httpPost("/api/course/updateCourse")
+    const params = {
+      ...form,
+      courseId: props.courseId
+    }
+    await httpPost("/api/course/updateCourse", params)
     ElMessage.success("更新成功")
     emit("update")
+    handleClose()
   } catch(err) {
     ElMessage.error(err as any)
     return
