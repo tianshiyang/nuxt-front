@@ -57,6 +57,7 @@
     <el-table-column label="操作">
       <template #default="{ row }">
         <el-button link type="primary" @click="handleEditCourse(row.id)">编辑</el-button>
+        <el-button link type="primary" @click="handleDeleteCourse(row.id)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -154,5 +155,20 @@ const handleEditCourse = (courseId: 0 | 1) => {
 
 const handleClose = () => {
   courseForm.visible = false
+}
+
+// 删除
+const handleDeleteCourse = async (courseId: number) => {
+  try {
+    const params = {
+      courseId
+    }
+    await httpPost("/api/course/deleteCourse", params)
+    ElMessage.success("删除成功")
+    handleGetPageList()
+  } catch(err) {
+    ElMessage.error(err as any)
+    return
+  }
 }
 </script>
