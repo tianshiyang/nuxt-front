@@ -42,7 +42,7 @@
     <el-table-column prop="id" label="课程ID" />
     <el-table-column prop="title" label="课程标题" />
     <el-table-column prop="price" label="课程现价" />
-    <el-table-column prop="tPrice" label="课程原价" />
+    <el-table-column prop="t_price" label="课程原价" />
     <el-table-column label="是否推荐">
       <template #default="{ row }">
         {{ row.isRecommend ? "是" : "否" }}
@@ -53,7 +53,7 @@
         {{ row.isColumn ? "是" : "否" }}
       </template>
     </el-table-column>
-    <el-table-column prop="createdAt" label="创建时间" />
+    <el-table-column prop="created_at" label="创建时间" />
   </el-table>
 
   <el-pagination
