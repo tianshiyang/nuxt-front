@@ -58,7 +58,6 @@ import { cloneDeep } from "lodash";
 import { reactive, ref } from "vue";
 import { httpPost, httpGet } from "@/composables/request";
 import { ElMessage } from "element-plus";
-import moment from "moment";
 import type { FormInstance } from 'element-plus'
 
 useHead({
@@ -86,7 +85,7 @@ const newUserInfo = useUserInfo()
 const getUserInfo = async () => {
   try {
     const result = await httpGet('/api/user/getUserInfo')
-    result.data.createdAt = moment(result.data.createdAt).format("YYYY-MM-DD HH:mm:ss").valueOf()
+    result.data.createdAt = result.data.createdAt
     newUserInfo.userInfo = result.data
   } catch(err) {
     ElMessage.error(err as string)

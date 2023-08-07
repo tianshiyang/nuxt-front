@@ -4,7 +4,7 @@
       <h1>XXX官网</h1>
     </el-col>
     <el-col :span="2">
-      <el-button text bg size="large" @click="handleNavigate('/index')">首页</el-button>
+      <el-button text bg size="large" @click="handleNavigate('/')">首页</el-button>
     </el-col>
     <el-col :span="2">
       <el-button text bg size="large" @click="handleNavigate('/column')">专栏</el-button>
@@ -18,7 +18,7 @@
     <el-col :span="10"></el-col>
     <el-col :span="2">
       <el-button type="primary" v-if="!userInfo.userInfo?.username" size="large" @click="handleNavigate('/login')">登录</el-button>
-      <el-popover placement="bottom" trigger="click">
+      <el-popover placement="bottom" trigger="click" v-else>
         <template #reference>
           <el-avatar :size="50" :src="circleUrl" />
         </template>

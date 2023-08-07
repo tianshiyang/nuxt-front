@@ -7,7 +7,6 @@
 <script lang="ts" setup>
 import { ElMessage } from "element-plus"
 import { useUserInfo } from "@/store/user"
-import moment from "moment"
 
 const route = useRoute()
 const layout = ref('default')
@@ -17,7 +16,7 @@ const userInfo = useUserInfo()
 const getUserInfo = async () => {
   try {
     const result = await httpGet('/api/user/getUserInfo')
-    result.data.createdAt = moment(result.data.createdAt).format("YYYY-MM-DD HH:mm:ss").valueOf()
+    result.data.createdAt = result.data.createdAt
     userInfo.userInfo = result.data
   } catch(err) {
     ElMessage.error(err as string)
