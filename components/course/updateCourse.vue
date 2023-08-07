@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="form.visible" :title="props.useType === 0 ? '新增课程' : '创建课程'">
+  <el-dialog v-model="form.visible" :title="props.useType === 0 ? '新增课程' : '创建课程'" @close="handleClose">
     <el-form :model="form" :rules="rules" :inline="false" ref="CreateCourseForm">
       <el-form-item prop="title" label="课程标题">
         <el-input v-model="form.title" placeholder="请输入课程标题" clearable />
@@ -52,6 +52,11 @@ const props = defineProps({
 
 const CreateCourseForm = ref<FormInstance>()
 
+const emit = defineEmits<{
+  (event: "update"): void
+  (event: "close"): void
+}>()
+
 const form = reactive({
   visible: true,
   courseId: "",
@@ -86,23 +91,23 @@ const rules = {
 const getUpdateCourseDetail = async () => {
   let result = null
   try {
-    await httpGet("/api/course/createCourse", {
+    result = await httpGet("/api/course/getCourseDetail", {
       params: {
-        form 
+        courseId: props.courseId 
       }
     })
   } catch (err) {
     ElMessage.error(err as any)
     return
   }
-  form.title = (result as any).detail.title
-  form.cover = (result as any).detail.cover
-  form.price = (result as any).detail.price
-  form.tPrice = (result as any).detail.tPrice
-  form.isRecommend = (result as any).detail.isRecommend
-  form.isColumn = (result as any).detail.isColumn
-  form.desc = (result as any).detail.desc
-  form.detail = (result as any).detail.detail
+  form.title = (result as any).data.detail.title
+  form.cover = (result as any).data.detail.cover
+  form.price = (result as any).data.detail.price
+  form.tPrice = (result as any).data.detail.tPrice
+  form.isRecommend = (result as any).data.detail.isRecommend
+  form.isColumn = (result as any).data.detail.isColumn
+  form.desc = (result as any).data.detail.desc
+  form.detail = (result as any).data.detail.detail
 }
 
 const handleClick = async () => {
@@ -123,6 +128,7 @@ const handleCreateCourse = async () => {
   try {
     await httpPost('/api/course/createCourse', form)
     ElMessage.success("创建成功")
+    emit("update")
   } catch (err) {
     ElMessage.error(err as any)
     return
@@ -131,14 +137,19 @@ const handleCreateCourse = async () => {
 
 // 更新
 const handleUpdateCourse = async () => {
-  let result = null
   try {
-    result = await httpPost("/api/course/updateCourse")
+    await httpPost("/api/course/updateCourse")
+    ElMessage.success("更新成功")
+    emit("update")
   } catch(err) {
     ElMessage.error(err as any)
     return
   }
-  form.courseId = (result as any).detail.id
+}
+
+// 关闭
+const handleClose = () => {
+  emit('close')
 }
 
 if (props.useType === 1) {

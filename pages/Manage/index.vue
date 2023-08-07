@@ -42,7 +42,7 @@
     <el-table-column prop="id" label="课程ID" />
     <el-table-column prop="title" label="课程标题" />
     <el-table-column prop="price" label="课程现价" />
-    <el-table-column prop="t_price" label="课程原价" />
+    <el-table-column prop="tPrice" label="课程原价" />
     <el-table-column label="是否推荐">
       <template #default="{ row }">
         {{ row.isRecommend ? "是" : "否" }}
@@ -53,7 +53,12 @@
         {{ row.isColumn ? "是" : "否" }}
       </template>
     </el-table-column>
-    <el-table-column prop="created_at" label="创建时间" />
+    <el-table-column prop="createdAt" label="创建时间" />
+    <el-table-column label="操作">
+      <template #default="{ row }">
+        <el-button link type="primary" @click="handleEditCourse(row.id)">编辑</el-button>
+      </template>
+    </el-table-column>
   </el-table>
 
   <el-pagination
@@ -65,7 +70,12 @@
     @size-change="handleSearch"
     @current-change="handleGetPageList" />
 
-  <CourseUpdateCourse v-if="courseForm.visible" />
+  <CourseUpdateCourse 
+    :use-type="courseForm.useType" 
+    :course-id="courseForm.courseId" 
+    @update="handleGetPageList"
+    @close="handleClose"
+    v-if="courseForm.visible" />
 </template>
 
 <script lang="ts" setup>
@@ -127,9 +137,22 @@ handleGetPageList()
 
 // 新建课程
 const courseForm = reactive({
-  visible: false
+  visible: false,
+  useType: 0 as 0 | 1,
+  courseId: 0
 })
 const handleCreateCourse = () => {
   courseForm.visible = true
+  courseForm.useType = 0
+  courseForm.courseId = 0
+}
+const handleEditCourse = (courseId: 0 | 1) => {
+  courseForm.useType = 1
+  courseForm.courseId = courseId
+  courseForm.visible = true
+}
+
+const handleClose = () => {
+  courseForm.visible = false
 }
 </script>
