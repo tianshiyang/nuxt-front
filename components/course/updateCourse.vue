@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="form.visible" :title="props.useType === 0 ? '新增课程' : '创建课程'" @close="handleClose">
+  <el-dialog v-model="form.visible" :title="props.useType === 0 ? '新增课程' : '编辑课程'" @close="handleClose">
     <el-form :model="form" :rules="rules" :inline="false" ref="CreateCourseForm">
       <el-form-item prop="title" label="课程标题">
         <el-input v-model="form.title" placeholder="请输入课程标题" clearable />
