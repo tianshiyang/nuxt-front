@@ -9,6 +9,7 @@ import { ElMessage } from "element-plus"
 import { useUserInfo } from "@/store/user"
 
 const route = useRoute()
+const router = useRouter()
 const layout = ref('default')
 
 const userInfo = useUserInfo()
@@ -25,6 +26,12 @@ const getUserInfo = async () => {
 
 
 watch(() => route.path, () => {
+  if (route.path === "/") {
+    router.push({
+      path: "/home"
+    })
+    return
+  }
   if (route.path === '/login') {
     layout.value = 'login'
   } else if (route.path === "/userCenter") {

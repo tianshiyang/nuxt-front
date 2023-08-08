@@ -80,7 +80,9 @@
 </template>
 
 <script lang="ts" setup>
-
+useHead({
+  title: "课程管理"
+})
 const defaultTime: [Date, Date] = [
   new Date(new Date().getFullYear(), 1, 1, 0, 0, 0),
   new Date(new Date().getFullYear(), 2, 1, 23, 59, 59),

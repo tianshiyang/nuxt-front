@@ -12,6 +12,9 @@
 </template>
 
 <script lang="ts" setup>
+useHead({
+  title: "登录"
+})
 const activeName = ref('login')
 
 const handleClick = (value: any) => {
