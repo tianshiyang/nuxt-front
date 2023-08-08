@@ -7,7 +7,7 @@
       <el-button text bg size="large" @click="handleNavigate('/home')">首页</el-button>
     </el-col>
     <el-col :span="2">
-      <el-button text bg size="large" @click="handleNavigate('/column')">专栏</el-button>
+      <el-button text bg size="large" @click="handleNavigate('/order')">我的订单</el-button>
     </el-col>
     <el-col :span="2">
       <el-button text bg size="large" v-if="userInfo.userInfo.role === 1" @click="handleNavigate('/manage')">管理</el-button>
